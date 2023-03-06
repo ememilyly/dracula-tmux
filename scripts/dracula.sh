@@ -205,7 +205,12 @@ main()
         if $use_hex_block_colors; then
           tmux set-option -ga status-right "#[bg=$block]  "
         else
-          tmux set-option -ga status-right "#[bg=${!block}]  "
+          if [ ${block:0:1} = "#" ]; then
+            tmux set-option -ga status-right "set @dracula-hex-block-colors!"
+            break
+          else
+            tmux set-option -ga status-right "#[bg=${!block}]  "
+          fi
         fi
       done
     elif $show_powerline; then
