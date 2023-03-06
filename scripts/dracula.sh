@@ -116,10 +116,10 @@ main()
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[bg=${!left_icon_bg},fg=${!left_icon_fg}]#{?client_prefix,#[bg=${!left_icon_prefix_bg},fg=${!left_icon_prefix_fg}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
+    tmux set-option -g status-left "#{?client_prefix,#[bg=${!left_icon_prefix_bg}#,fg=${!left_icon_prefix_fg}],#[bg=${!left_icon_bg}#,fg=${!left_icon_fg}]} ${left_icon} #{?client_prefix,#[fg=${!left_icon_prefix_bg}],#[fg=${!left_icon_bg}#,bg=${!left_icon_fg}]}${left_sep}"
     powerbg=${gray}
   else
-    tmux set-option -g status-left "#[bg=${!left_icon_bg},fg=${!left_icon_fg}]#{?client_prefix,#[bg=${!left_icon_prefix_bg},fg=${!left_icon_prefix_fg}],} ${left_icon}"
+    tmux set-option -g status-left "#{?client_prefix,#[bg=${!left_icon_prefix_bg}#,fg=${!left_icon_prefix_fg}],#[bg=${!left_icon_bg}#,fg=${!left_icon_fg}]} ${left_icon}"
   fi
 
   # Status right
