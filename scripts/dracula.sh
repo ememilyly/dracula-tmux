@@ -13,6 +13,7 @@ main()
   show_fahrenheit=$(get_tmux_option "@dracula-show-fahrenheit" true)
   show_location=$(get_tmux_option "@dracula-show-location" true)
   fixed_location=$(get_tmux_option "@dracula-fixed-location")
+  use_hex_block_colors=$(get_tmux_option "@dracula-hex-block-colors" false)
   show_powerline=$(get_tmux_option "@dracula-show-powerline" false)
   show_flags=$(get_tmux_option "@dracula-show-flags" false)
   show_left_icon=$(get_tmux_option "@dracula-show-left-icon" smiley)
@@ -129,6 +130,7 @@ main()
 
   for plugin in "${plugins[@]}"; do
 
+
     if [ $plugin = "git" ]; then
       IFS=' ' read -r -a colors  <<< $(get_tmux_option "@dracula-git-colors" "green dark_gray")
       tmux set-option -g status-right-length 250
@@ -197,7 +199,16 @@ main()
       script="$date_format"
     fi
 
-    if $show_powerline; then
+    if [ $plugin = "blocks" ]; then
+      IFS=' ' read -r -a blocks <<< $(get_tmux_option "@dracula-blocks-colors" "cyan pink white pink cyan")
+      for block in "${blocks[@]}"; do
+        if $use_hex_block_colors; then
+          tmux set-option -ga status-right "#[bg=$block]  "
+        else
+          tmux set-option -ga status-right "#[bg=${!block}]  "
+        fi
+      done
+    elif $show_powerline; then
       tmux set-option -ga status-right "#[fg=${!colors[0]},bg=${powerbg},nobold,nounderscore,noitalics]${right_sep}#[fg=${!colors[1]},bg=${!colors[0]}] $script "
       powerbg=${!colors[0]}
     else
@@ -219,3 +230,5 @@ main()
 
 # run main function
 main
+
+# vim: ts=2 sw=2
