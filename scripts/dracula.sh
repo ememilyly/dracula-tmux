@@ -22,6 +22,10 @@ main()
   left_icon_prefix_fg=$(get_tmux_option "@dracula-left-icon-fg" "$left_icon_fg")
   left_icon_bg=$(get_tmux_option "@dracula-left-icon-bg" "green")
   left_icon_prefix_bg=$(get_tmux_option "@dracula-left-icon-prefix-bg" "yellow")
+  window_status_current_fg=$(get_tmux_option "@dracula-window-status-current-fg" "white")
+  window_status_current_bg=$(get_tmux_option "@dracula-window-status-current-bg" "dark_purple")
+  window_status_fg=$(get_tmux_option "@dracula-window-status-fg" "white")
+  window_status_bg=$(get_tmux_option "@dracula-window-status-bg" "gray")
   show_military=$(get_tmux_option "@dracula-military-time" false)
   show_timezone=$(get_tmux_option "@dracula-show-timezone" true)
   show_left_sep=$(get_tmux_option "@dracula-show-left-sep" )
@@ -219,12 +223,12 @@ main()
 
   # Window option
   if $show_powerline; then
-    tmux set-window-option -g window-status-current-format "#[fg=${gray},bg=${dark_purple}]${left_sep}#[fg=${white},bg=${dark_purple}] #I #W${current_flags} #[fg=${dark_purple},bg=${gray}]${left_sep}"
+    tmux set-window-option -g window-status-current-format "#[fg=${!window_status_bg},bg=${!window_status_current_bg}]${left_sep}#[fg=${!window_status_current_fg},bg=${!window_status_current_bg}] #I #W${current_flags} #[fg=${!window_status_current_bg},bg=${!window_status_bg}]${left_sep}"
   else
-    tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${dark_purple}] #I #W${current_flags} "
+    tmux set-window-option -g window-status-current-format "#[fg=${!window_status_current_fg},bg=${!window_status_current_bg}] #I #W${current_flags} "
   fi
 
-  tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${gray}] #I #W${flags}"
+  tmux set-window-option -g window-status-format "#[fg=${!window_status_fg}]#[bg=${!window_status_bg}] #I #W${flags}"
   tmux set-window-option -g window-status-activity-style "bold"
   tmux set-window-option -g window-status-bell-style "bold"
 }
