@@ -18,6 +18,10 @@ main()
   show_flags=$(get_tmux_option "@dracula-show-flags" false)
   show_left_icon=$(get_tmux_option "@dracula-show-left-icon" smiley)
   show_left_icon_padding=$(get_tmux_option "@dracula-left-icon-padding" 1)
+  left_icon_fg=$(get_tmux_option "@dracula-left-icon-fg" "dark_gray")
+  left_icon_prefix_fg=$(get_tmux_option "@dracula-left-icon-fg" "$left_icon_fg")
+  left_icon_bg=$(get_tmux_option "@dracula-left-icon-bg" "green")
+  left_icon_prefix_bg=$(get_tmux_option "@dracula-left-icon-prefix-bg" "yellow")
   show_military=$(get_tmux_option "@dracula-military-time" false)
   show_timezone=$(get_tmux_option "@dracula-show-timezone" true)
   show_left_sep=$(get_tmux_option "@dracula-show-left-sep" )
@@ -112,10 +116,10 @@ main()
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
+    tmux set-option -g status-left "#[bg=${!left_icon_bg},fg=${!left_icon_fg}]#{?client_prefix,#[bg=${!left_icon_prefix_bg},fg=${!left_icon_prefix_fg}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
     powerbg=${gray}
   else
-    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
+    tmux set-option -g status-left "#[bg=${!left_icon_bg},fg=${!left_icon_fg}]#{?client_prefix,#[bg=${!left_icon_prefix_bg},fg=${!left_icon_prefix_fg}],} ${left_icon}"
   fi
 
   # Status right
