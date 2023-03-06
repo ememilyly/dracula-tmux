@@ -92,13 +92,6 @@ main()
   # sets refresh interval to every 5 seconds
   tmux set-option -g status-interval $show_refresh
 
-  # set the prefix + t time format
-  if $show_military; then
-    tmux set-option -g clock-mode-style 24
-  else
-    tmux set-option -g clock-mode-style 12
-  fi
-
   # set length
   tmux set-option -g status-left-length 100
   tmux set-option -g status-right-length 100
@@ -129,7 +122,6 @@ main()
   tmux set-option -g status-right ""
 
   for plugin in "${plugins[@]}"; do
-
 
     if [ $plugin = "git" ]; then
       IFS=' ' read -r -a colors  <<< $(get_tmux_option "@dracula-git-colors" "green dark_gray")
