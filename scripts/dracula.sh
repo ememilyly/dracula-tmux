@@ -23,6 +23,7 @@ main()
   show_right_sep=$(get_tmux_option "@dracula-show-right-sep" )
   show_border_contrast=$(get_tmux_option "@dracula-border-contrast" false)
   show_day_month=$(get_tmux_option "@dracula-day-month" false)
+  date_format=$(get_tmux_option "@dracula-date-format" '%a %m/%d %R %Z')
   show_refresh=$(get_tmux_option "@dracula-refresh-rate" 5)
   show_kubernetes_context_label=$(get_tmux_option "@dracula-kubernetes-context-label" "")
   IFS=' ' read -r -a plugins <<< $(get_tmux_option "@dracula-plugins" "battery network weather")
@@ -193,15 +194,7 @@ main()
 
     if [ $plugin = "time" ]; then
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-time-colors" "dark_purple white")
-      if $show_day_month && $show_military ; then # military time and dd/mm
-        script="%a %d/%m %R ${timezone} "
-      elif $show_military; then # only military time
-        script="%a %m/%d %R ${timezone} "
-      elif $show_day_month; then # only dd/mm
-        script="%a %d/%m %I:%M %p ${timezone} "
-      else
-        script="%a %m/%d %I:%M %p ${timezone} "
-      fi
+      script="$date_format"
     fi
 
     if $show_powerline; then
